@@ -1,3 +1,11 @@
+<!--<script lang="ts">-->
+<!--  import { page } from '$app/stores';-->
+
+<!--  // Layout'tan navItems verilerini al-->
+<!--  $: navItems = $page.data.navItems || [];-->
+<!--</script>-->
+
+
 <script lang="ts">
 
   import { onMount } from 'svelte';
