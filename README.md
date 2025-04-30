@@ -1,37 +1,36 @@
-
-# Kurumsal FullStack Proje Şablonu  
-**PocketBase (Backend) + SvelteKit (Frontend) + PostgreSQL (Opsiyonel) + Docker (Opsiyonel)**  
-
----
-
-## 🌟 **Genel Bakış**  
-Bu şablon, hızlı ve SEO dostu kurumsal web siteleri için optimize edilmiştir.  
-- **Temel Teknolojiler:**  
-  - **Backend:** PocketBase (Go) - Tek dosya, dahili admin panel, SQLite/PostgreSQL desteği.  
-  - **Frontend:** SvelteKit - SSR/SSG hibrit, hafif ve hızlı.  
-- **Esnek Yapı:**  
-  - **Veritabanı:** İsteğe bağlı SQLite (basit) veya PostgreSQL (ölçeklenebilir).  
-  - **Deployment:** Docker ile taşınabilir veya direkt Plesk/cPanel.  
+# Corporate FullStack Project Template  
+**PocketBase (Backend) + SvelteKit (Frontend) + PostgreSQL (Optional) + Docker (Optional)**  
 
 ---
 
-## 🛠️ **Kurulum**  
+## 🌟 **Overview**  
+This template is optimized for fast and SEO-friendly corporate websites.  
+- **Core Technologies:**  
+  - **Backend:** PocketBase (Go) - Single binary, built-in admin panel, SQLite/PostgreSQL support.  
+  - **Frontend:** SvelteKit - SSR/SSG hybrid, lightweight and fast.  
+- **Flexible Architecture:**  
+  - **Database:** Optional SQLite (simple) or PostgreSQL (scalable).  
+  - **Deployment:** Portable with Docker or direct Plesk/cPanel deployment.  
 
-### 1. Gereksinimler  
+---
+
+## 🛠️ **Installation**  
+
+### 1. Requirements  
 - Node.js v18+  
 - PocketBase v0.10+  
-- PNPM v8+ (Opsiyonel)  
-- Plesk/cPanel erişimi (Deploy için)  
+- PNPM v8+ (Optional)  
+- Plesk/cPanel access (For deployment)  
 
-### 2. Projeyi Klonla  
+### 2. Clone the Project  
 ```bash  
-git clone https://github.com/kullanici/proje-adi.git  
-cd proje-adi  
+git clone https://github.com/user/project-name.git  
+cd project-name  
 ```
 
 ### 3. Backend (PocketBase)  
 ```bash  
-# PocketBase indir ve başlat (SQLite varsayılan)  
+# Download and start PocketBase (SQLite default)  
 wget https://github.com/pocketbase/pocketbase/releases/download/v0.10.3/pocketbase_0.10.3_linux_amd64.zip  
 unzip pocketbase_0.10.3_linux_amd64.zip  
 ./pocketbase serve --dir ./pb_data  
@@ -40,35 +39,35 @@ unzip pocketbase_0.10.3_linux_amd64.zip
 ### 4. Frontend (SvelteKit)  
 ```bash  
 cd frontend  
-pnpm install # veya npm install  
-pnpm dev # Geliştirme modu  
+pnpm install # or npm install  
+pnpm dev # Development mode  
 ```
 
 ---
 
-## 📦 **Veritabanı Seçenekleri**  
+## 📦 **Database Options**  
 
-### A) SQLite (Varsayılan)  
-- **Avantaj:** Kurulum gerektirmez, `pb_data/data.db` dosyasına kaydeder.  
-- **Başlatma:**  
+### A) SQLite (Default)  
+- **Advantage:** No setup required, saves to `pb_data/data.db`.  
+- **Start:**  
   ```bash  
   ./pocketbase serve --dir ./pb_data  
   ```
 
-### B) PostgreSQL (Ölçeklenebilir Çözüm)  
-1. **Plesk/cPanel'de PostgreSQL Veritabanı Oluşturun**  
-2. **PocketBase'i PostgreSQL ile Başlatın:**  
+### B) PostgreSQL (Scalable Solution)  
+1. **Create PostgreSQL Database in Plesk/cPanel**  
+2. **Start PocketBase with PostgreSQL:**  
    ```bash  
-   ./pocketbase serve --postgres="postgres://kullanici:sifre@localhost:5432/veritabani_adi"  
+   ./pocketbase serve --postgres="postgres://user:password@localhost:5432/database_name"  
    ```
-3. **Mevcut Verileri Taşıyın (Opsiyonel):**  
+3. **Migrate Existing Data (Optional):**  
    ```bash  
-   pgloader pb_data/data.db postgresql://kullanici:sifre@localhost/veritabani_adi  
+   pgloader pb_data/data.db postgresql://user:password@localhost/database_name  
    ```
 
 ---
 
-## 🐳 **Docker ile Çalıştırma (Opsiyonel)**  
+## 🐳 **Running with Docker (Optional)**  
 ```dockerfile  
 # Dockerfile  
 FROM alpine:latest  
@@ -106,12 +105,12 @@ volumes:
 ## 🚀 **Deployment (Plesk & cPanel)**  
 
 ### A) Plesk  
-1. **Node.js Uygulaması Oluştur:**  
-   - **Dizin:** `/httpdocs/frontend`  
-   - **Başlatma Komutu:** `npm run build && npm run start`  
-   - **Ortam Değişkenleri:** `NODE_ENV=production`  
+1. **Create Node.js Application:**  
+   - **Directory:** `/httpdocs/frontend`  
+   - **Start Command:** `npm run build && npm run start`  
+   - **Environment Variables:** `NODE_ENV=production`  
 
-2. **PocketBase'i Systemd ile Çalıştır:**  
+2. **Run PocketBase with Systemd:**  
    ```bash  
    sudo nano /etc/systemd/system/pocketbase.service  
    ```  
@@ -120,22 +119,22 @@ volumes:
    Description=PocketBase Service  
    [Service]  
    User=plesk  
-   WorkingDirectory=/var/www/vhosts/siteniz.com/httpdocs  
-   ExecStart=/var/www/vhosts/siteniz.com/httpdocs/pocketbase serve  
+   WorkingDirectory=/var/www/vhosts/yoursite.com/httpdocs  
+   ExecStart=/var/www/vhosts/yoursite.com/httpdocs/pocketbase serve  
    [Install]  
    WantedBy=multi-user.target  
    ```
 
 ### B) cPanel  
-1. **Static Export (Next.js):**  
+1. **Static Export (SvelteKit):**  
    ```bash  
    npm run build  
    npm run export  
    ```  
-   - `out` klasörünü `public_html`'e yükleyin.  
+   - Upload the `out` folder to `public_html`.  
 
-2. **PocketBase için Reverse Proxy:**  
-   `.htaccess` dosyasına ekleyin:  
+2. **Reverse Proxy for PocketBase:**  
+   Add to `.htaccess`:  
    ```apache  
    RewriteEngine On  
    RewriteRule ^/api/(.*) http://localhost:8090/api/$1 [P]  
@@ -143,39 +142,39 @@ volumes:
 
 ---
 
-## 🔒 **Güvenlik & Performans**  
+## 🔒 **Security & Performance**  
 
-### Temel Önlemler  
-- **SPF/DKIM:** Plesk/cPanel DNS ayarlarından ekleyin.  
-- **Cloudflare:** DNS ve DDoS koruması için yönlendirin.  
-- **Yedekler:** Plesk Backup Manager veya `pg_dump` (PostgreSQL).  
+### Basic Measures  
+- **SPF/DKIM:** Configure in Plesk/cPanel DNS settings.  
+- **Cloudflare:** Route DNS and enable DDoS protection.  
+- **Backups:** Use Plesk Backup Manager or `pg_dump` (PostgreSQL).  
 
-### Performans İpuçları  
-- **CDN:** Cloudflare veya Netlify ile statik dosyaları cache'leyin.  
-- **Ölçeklendirme:**  
-  - **PostgreSQL Replikasyonu:** Master-slave yapısı kurun.  
-  - **Load Balancer:** Nginx ile trafiği dağıtın.  
-
----
-
-## ❓ **Sık Sorulan Sorular**  
-
-**1. SQLite → PostgreSQL geçişinde veri kaybı olur mu?**  
-Hayır, `pgloader` veya manuel dump ile sorunsuz taşıyabilirsiniz.  
-
-**2. Docker kullanmazsam Plesk'te sorun yaşar mıyım?**  
-Hayır, Plesk Node.js eklentisi ve systemd ile sorunsuz çalışır.  
-
-**3. E-ticaret entegrasyonu için ne önerirsiniz?**  
-PocketBase hooks ile Stripe API veya MedusaJS kullanın.  
+### Performance Tips  
+- **CDN:** Cache static files with Cloudflare or Netlify.  
+- **Scaling:**  
+  - **PostgreSQL Replication:** Set up master-slave.  
+  - **Load Balancer:** Distribute traffic with Nginx.  
 
 ---
 
-## 📚 **Kaynaklar**  
-- [PocketBase Dokümantasyonu](https://pocketbase.io/docs)  
-- [SvelteKit Rehberi](https://kit.svelte.dev)  
+## ❓ **Frequently Asked Questions**  
+
+**1. Will data be lost during SQLite → PostgreSQL migration?**  
+No, you can safely migrate using `pgloader` or manual dump.  
+
+**2. Will there be issues on Plesk without Docker?**  
+No, Plesk Node.js extension and systemd work seamlessly.  
+
+**3. What do you recommend for e-commerce integration?**  
+Use PocketBase hooks with Stripe API or MedusaJS.  
+
+---
+
+## 📚 **Resources**  
+- [PocketBase Documentation](https://pocketbase.io/docs)  
+- [SvelteKit Guide](https://kit.svelte.dev)  
 - [Plesk Node.js](https://www.plesk.com/blog/3-ways-to-deploy-node-js-applications-with-plesk)  
 
 ---
 
-**🎯 Sonuç:** Bu stack ile MVP'yi 1 günde çıkarabilir, gerektiğinde PostgreSQL ve Docker ile ölçeklendirebilirsiniz.  
+**🎯 Result:** With this stack, you can launch an MVP in 1 day and scale with PostgreSQL/Docker when needed.
