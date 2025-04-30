@@ -1,69 +1,69 @@
-<!--<script lang="ts">-->
-<!--  import { page } from '$app/stores';-->
-
-<!--  // Layout'tan navItems verilerini al-->
-<!--  $: navItems = $page.data.navItems || [];-->
-<!--</script>-->
-
-
 <script lang="ts">
-
-  import { onMount } from 'svelte';
   import { page } from '$app/stores';
 
-  let navItems = [];
-  let isLoading = true;
-
-  onMount(async () => {
-    try {
-      // PocketBase'den navigasyon öğelerini çekiyoruz
-      const records = await $page.data.pb.collection('navItems').getFullList({
-        sort: 'sort' // Eğer bir sıralama alanınız varsa
-      });
-
-      // API'den gelen verileri kullanılabilir formata dönüştürüyoruz
-      navItems = records.map(record => ({
-        name: record.name,
-        path: record.path
-      }));
-
-      isLoading = false;
-    } catch (error) {
-      console.error('Navigasyon öğeleri çekilemedi:', error);
-      // Hata durumunda fallback olarak varsayılan değerleri kullanabiliriz
-      navItems = [
-        {name: 'Ana Sayfa', path: '/'},
-        {name: 'Hakkımızda', path: '/hakkimizda'},
-        {name: 'Hizmetler', path: '/hizmetler'},
-        {name: 'Blog', path: '/blog'},
-        {name: 'İletişim', path: '/iletisim'},
-        {name: 'SSS', path: '/sss'}
-      ];
-      isLoading = false;
-    }
-  });
-
+  // Layout'tan navItems verilerini al
+  $: navItem = $page.data.navItem || [];
 </script>
-<div class="navbar flex-grow container mx-auto px-4 py-6 bg-base-100">
+
+
+<!--<script lang="ts">-->
+
+<!--  import { onMount } from 'svelte';-->
+<!--  import { page } from '$app/stores';-->
+
+<!--  let navItems = [];-->
+<!--  let isLoading = true;-->
+
+<!--  onMount(async () => {-->
+<!--    try {-->
+<!--      // PocketBase'den navigasyon öğelerini çekiyoruz-->
+<!--      const records = await $page.data.pb.collection('navItems').getFullList({-->
+<!--        sort: 'sort' // Eğer bir sıralama alanınız varsa-->
+<!--      });-->
+
+<!--      // API'den gelen verileri kullanılabilir formata dönüştürüyoruz-->
+<!--      navItems = records.map(record => ({-->
+<!--        name: record.name,-->
+<!--        path: record.path-->
+<!--      }));-->
+
+<!--      isLoading = false;-->
+<!--    } catch (error) {-->
+<!--      console.error('Navigasyon öğeleri çekilemedi:', error);-->
+<!--      // Hata durumunda fallback olarak varsayılan değerleri kullanabiliriz-->
+<!--      navItems = [-->
+<!--        {name: 'Ana Sayfa', path: '/'},-->
+<!--        {name: 'Hakkımızda', path: '/hakkimizda'},-->
+<!--        {name: 'Hizmetler', path: '/hizmetler'},-->
+<!--        {name: 'Blog', path: '/blog'},-->
+<!--        {name: 'İletişim', path: '/iletisim'},-->
+<!--        {name: 'SSS', path: '/sss'}-->
+<!--      ];-->
+<!--      isLoading = false;-->
+<!--    }-->
+<!--  });-->
+
+<!--</script>-->
+
+<div class="navbar bg-base-100 shadow">
   <div class="navbar-start">
     <div class="dropdown">
       <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-             stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/>
         </svg>
       </div>
-      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-        {#each navItems as item}
+      <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        {#each navItem as item}
           <li><a href={item.path}>{item.name}</a></li>
         {/each}
       </ul>
     </div>
-    <a href="/" class="btn btn-ghost text-xl">Logo</a>
+    <a class="btn btn-ghost text-xl" href="/">Logo</a>
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1">
-      {#each navItems as item}
+      {#each navItem as item}
         <li><a href={item.path}>{item.name}</a></li>
       {/each}
     </ul>
@@ -90,6 +90,6 @@
         </g>
       </svg>
     </label>
-    <a href="/iletisim" class="btn btn-primary">İletişime Geç</a>
+    <a class="btn btn-secondary" href="/iletisim">İletişim</a>
   </div>
 </div>

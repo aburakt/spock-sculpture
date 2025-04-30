@@ -2,21 +2,21 @@ import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ locals }) => {
 	// PocketBase'den navigasyon öğelerini yükle
-	let navItems = [];
+	let navItem = [];
 
 	try {
-		const records = await locals.pb.collection('navItems').getFullList({
+		const records = await locals.pb.collection('navItem').getFullList({
 			sort: 'sort',
 		});
 
-		navItems = records.map(record => ({
+		navItem = records.map(record => ({
 			name: record.name,
 			path: record.path
 		}));
 	} catch (error) {
 		console.error('Navigasyon öğeleri yüklenemedi:', error);
 		// Varsayılan değerleri kullan
-		navItems = [
+		navItem = [
 			{name: 'Ana Sayfa', path: '/'},
 			{name: 'Hakkımızda', path: '/hakkimizda'},
 			{name: 'Hizmetler', path: '/hizmetler'},
@@ -27,6 +27,6 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 	}
 
 	return {
-		navItems
+		navItem
 	};
 };
